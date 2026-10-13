@@ -15,8 +15,11 @@ def list_tasks(status: str | None = None, q: str | None = None) -> list[dict[str
         if status and task["status"] != status:
             continue
 
-        # Instructor note: partial feature for the lab.
-        # The route already accepts `q`, but search is not implemented yet.
+        if q:
+            search_text = f"{task['title']} {task['description']}".lower()
+            if q.lower() not in search_text:
+                continue
+
         filtered.append(task)
 
     return filtered
